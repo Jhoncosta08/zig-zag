@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-6 description-container">
+      <p>
+        Given a string <i>"str"</i> and a positive integer <i>"x"</i>, <br/>
+        where the length of <i>"str"</i> is ALWAYS greater than <i>"x"</i>, <br/>
+        determine the resulting string by splitting <i>"str"</i> into <i>"x"</i> lines and reconstructing it in a "Zig-Zag" pattern. <br/>
+        If the split is not exact, interlace the remaining characters between the beginning and the end of the resulting string. <br/>
+        In the "Zig-Zag" pattern, even-numbered lines will have their content reversed!
+        <br/>
+        <br/>
+        Example:
+        <br/>
+        <br/>
+
+        <strong>Example 1: <span>"str" = "SEMSOBRAS", "x" = 3</span></strong><br/>
+        1 "SEM"<br/>
+        2 "SOB"<br/>
+        3 "RAS"<br/>
+        <br/>
+
+        <strong>Example 2: <span>"str" = "HELLOWISECODE", "x"=3</span></strong><br/>
+        1 "HELL"<br/>
+        2 "OWIS"<br/>
+        3 "ECOD"<br/>
+        4 "E" (remainder) (1st character at the beginning of the string)<br/>
+        <br/>
+
+        <strong>Example 3: <span>"str" = "STRINGCOMSOBRAFOUR", "x" = 5</span></strong><br/>
+        1 "STR"<br/>
+        2 "ING"<br/>
+        3 "COM"<br/>
+        4 "SOB"<br/>
+        5 "RAF"<br/>
+        6 "OUR" (remainder) (1st character at the beginning, 2nd at the end, 3rd at the beginning, and so on)
+      </p>
+    </div>
+
+    <div class="col-sm-6 form-container">
+      <form [formGroup]="strForm" (ngSubmit)="getStrFormValue($event)">
+
+        <div class="form-group">
+          <label for="str" class="form-label">Enter the text</label>
+          <div class="input-group mb-3 input-container">
+            <input id="str" class="form-control manage-input" name="str" formControlName="str" type="text" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lineLength" class="form-label">Enter the Line length</label>
+          <div class="input-group mb-3 input-container">
+            <input id="lineLength" class="form-control manage-input" name="lineLength" formControlName="lineLength" type="number" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <app-simple-button [buttonText]="'ZIG ZAG'" [buttonType]="'submit'"></app-simple-button>
+        </div>
+
+      </form>
+
+      <div *ngIf="zigZagResult" class="row zig-zag-result-container">
+        <div class="col-sm text-center">
+          <p>Processed Result: <span>{{ zigZagResult }}</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

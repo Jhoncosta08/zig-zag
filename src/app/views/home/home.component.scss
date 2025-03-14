@@ -1,0 +1,66 @@
+@use 'custom-theme' as *;
+
+.container {
+  margin-top: 3rem;
+}
+
+.description-container {
+  & p {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: $primary-dark;
+  }
+
+  & i {
+    color: $dark;
+    font-weight: 600;
+  }
+
+  & span {
+    color: $dark;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+}
+
+.form-container {
+  background-color: $primary-one;
+  box-shadow: 0 3px 6px $dark;
+  padding: 1rem;
+
+  & .form-group {
+    margin: 1.5rem 0;
+  }
+
+  & label {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: $dark;
+    font-weight: 600;
+  }
+
+  & input {
+    box-shadow: none;
+    border: none;
+  }
+}
+
+.zig-zag-result-container {
+  & p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: $dark;
+    letter-spacing: 1px;
+  }
+
+  & span {
+    color: $primary-three;
+    margin-left: 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .form-container {
+    margin-top: 2rem;
+  }
+}
