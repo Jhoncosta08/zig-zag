@@ -3,6 +3,11 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {SimpleButtonComponent} from '../../components/simple-button/simple-button.component';
 import {NgIf} from '@angular/common';
 
+export interface preparedStringInterface {
+  reversedAndSlicedStringArray: string[];
+  preparedRemainderString: string;
+}
+
 @Component({
   selector: 'app-home',
   imports: [ReactiveFormsModule, SimpleButtonComponent, NgIf],
@@ -15,8 +20,8 @@ export class HomeComponent {
 
   constructor(private fb: FormBuilder) {
     this.strForm = this.fb.group({
-      str: ['SEMSOBRAS', Validators.required],
-      lineLength: [3, Validators.required],
+      str: ['STRINGCOMSOBRAFOUR', Validators.required],
+      lineLength: [5, Validators.required],
     });
   }
 
@@ -28,31 +33,60 @@ export class HomeComponent {
   }
 
   zigZag(str: string, x: number): string {
-    const lines: string[] = [];
-    let result: string;
-    for (let i: number = 0; i < str.length; i += x) {
-      lines.push(str.slice(i, i + x));
+    const slicedStringArray: string[] = this.sliceString(str, x);
+    const remainderString: string = this.getRemainderString(slicedStringArray, str);
+    const preparedString: preparedStringInterface = this.reverseString(slicedStringArray, remainderString);
+    return this.distributeRemainder(preparedString.reversedAndSlicedStringArray, preparedString.preparedRemainderString) ?? '';
+  }
+
+  sliceString(str: string, x: number): string[] {
+    const partSize: number  = Math.floor(str.length / x);
+    const slicedString: string[] = [];
+    for (let i: number = 0; i < x; i++) {
+      const start: number = i * partSize ;
+      let end: number = (i + 1) * partSize ;
+
+      if (end > str.length) {
+        end = str.length;
+      }
+      slicedString.push(str.slice(start, end));
     }
-    for (let i: number = 0; i < lines.length; i++) {
+    return slicedString;
+  }
+
+  getRemainderString(slicedStringArray: string[], originalString: string): string {
+    const slicedStringSize: number = slicedStringArray.join('').length;
+    const originalStringSize: number = originalString.length;
+    return originalString.slice(slicedStringSize, originalStringSize);
+  }
+
+
+
+  reverseString(slicesArray: string[], remainderString: string): preparedStringInterface {
+    slicesArray.push(remainderString);
+    const reversedStringArray: string[] = [];
+    for (let i: number = 0; i < slicesArray.length; i++) {
+      if (i !== 0 && i % 2 !== 0) {
+        reversedStringArray.push(slicesArray[i].split("").reverse().join(""));
+      } else {
+        reversedStringArray.push(slicesArray[i]);
+      }
+    }
+    const remainder: string = reversedStringArray.pop() ?? '';
+    return {reversedAndSlicedStringArray: reversedStringArray, preparedRemainderString: remainder}
+  };
+
+
+  distributeRemainder(slicedStringArray: string[], remainderString: string): string {
+    remainderString = remainderString.split('').reverse().join('')
+    for (let i: number = 0; i < remainderString.length; i++) {
       if (i % 2 !== 0) {
-        lines[i] = lines[i].split("").reverse().join("");
+        slicedStringArray.push(remainderString[i]);
+      } else {
+        slicedStringArray.unshift(remainderString[i]);
       }
     }
-    let remaining: string = "";
-    if (lines[lines.length - 1].length < x) {
-      remaining = lines.pop()!;
-    }
-    result = lines.join("");
-    if (remaining) {
-      for (let i: number = 0; i < remaining.length; i++) {
-        if (i % 2 === 0) {
-          result = remaining[i] + result;
-        } else {
-          result += remaining[i];
-        }
-      }
-    }
-    return result;
+    return slicedStringArray.join('');
   }
 
 }
