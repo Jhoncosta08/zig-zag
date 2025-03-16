@@ -20,8 +20,8 @@ export class HomeComponent {
 
   constructor(private fb: FormBuilder) {
     this.strForm = this.fb.group({
-      str: ['STRINGCOMSOBRAFOUR', Validators.required],
-      lineLength: [5, Validators.required],
+      str: ['SEMSOBRAS', Validators.required],
+      lineLength: [3, Validators.required],
     });
   }
 
